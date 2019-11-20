@@ -2,7 +2,7 @@
 <html lang="en">
     
 <head>
-        <title>Matrix Admin</title><meta charset="UTF-8" />
+        <title>Project Admin</title><meta charset="UTF-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 		<link rel="stylesheet" href="{{ asset('css/backend_css/bootstrap.min.css') }}" />
 		<link rel="stylesheet" href="{{ asset('css/backend_css/bootstrap-responsive.min.css') }}" />
@@ -21,7 +21,7 @@
         @endif   
 
         @if(Session::has('flash_message_success'))  
-        <div class="alert alert-danger alert-block">
+        <div class="alert alert-success alert-block">
 	<button type="button" class="close" data-dismiss="alert">×</button>	
         <strong>{!! session('flash_message_success') !!}</strong>
 </div>   

@@ -1,7 +1,7 @@
 
 $(document).ready(function(){
 	
-	$("#new_pwd").click(function(){
+	$("#current_pwd").keyup(function(){
 		var current_pwd = $("#current_pwd").val();
 		$.ajax({
 			type:'get',
@@ -97,7 +97,7 @@ $(document).ready(function(){
 				required:true,
 				minlength:6,
 				maxlength:20,
-				equalTo:"#pwd"
+				equalTo:"#new_pwd"
 			}
 		},
 		errorClass: "help-inline",
