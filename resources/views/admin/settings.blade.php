@@ -20,6 +20,7 @@
                   <label class="control-label">Current Password</label>
                   <div class="controls">
                     <input type="password" name="current_pwd" id="current_pwd" />
+                    <span id="chkPwd"></span>
                   </div>
                 </div>  
               <div class="control-group">
