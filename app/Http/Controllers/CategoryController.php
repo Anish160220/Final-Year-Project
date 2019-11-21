@@ -20,8 +20,20 @@ class CategoryController extends Controller
         return view('admin.categories.add_category');
     }
 
+    public function editCategory(Request $request,$id = null){
+        if($request->isMethod('post')){
+            $data = $request->all();
+            //echo"<prev>"; print_r($data); die;
+            Category::where(['id'=>$id])->update(['name'=>$data['category_name'],'description'=>$data['description'],'url'=>$data['url']]);
+            return redirect('/admin/view-categories')->with('flash_message_success','Category updated Successfully');
+        }
+        $categoryDetails = Category::where(['id'=>$id])->first();
+        return view('admin.categories.edit_category')->with(compact('categoryDetails'));
+    }
+
     public function viewCategories(){
         $categories = Category::get(); //user Modle to get all record
+        $categories = json_decode(json_encode($categories)); //takes a JSON encoded string and converts it into a PHP variable.
         return view('admin.categories.view_categories')->with(compact('categories'));
     }
 }

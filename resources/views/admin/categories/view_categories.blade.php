@@ -33,7 +33,7 @@
                 <tr>
                   <th>Category ID</th>
                   <th>Category Name</th>
-                  <th>Category Description</th>
+                  <th>Category Url's</th>
                   <th>Actions</th>
                 </tr>
               </thead>
@@ -43,7 +43,7 @@
                   <td>{{ $category->id }}</td>
                   <td>{{ $category->name }}</td>
                   <td>{{ $category->url }}</td>
-                  <td class="center"><a href="#" class="btn btn-primary btn-mini">Edit</a>  <a href="#" class="btn btn-danger btn-mini">Delete</a></td>
+                  <td class="center"><a href="{{ url('/admin/edit-category/'.$category->id )}}" class="btn btn-primary btn-mini">Edit</a>  <a href="#" class="btn btn-danger btn-mini">Delete</a></td>
                 </tr>
                 @endforeach
                 </tbody>
