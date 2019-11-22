@@ -57,8 +57,28 @@
                   <img src="{{ asset('/images/backend_images/products/small/'.$product->image) }}" style="width:60px;">;
                   @endif
                   </td>
-                  <td class="center"><a href="{{ url('/admin/edit-product/'.$product->id )}}" class="btn btn-primary btn-mini">Edit</a>  <a id="delCat" href="{{ url('/admin/delete-product/'.$product->id )}}" class="btn btn-danger btn-mini">Delete</a></td>
+                  <td class="center"><a href="#myModal{{ $product->id }}" data-toggle="modal" class="btn btn-success btn-mini">View</a><a href="{{ url('/admin/edit-product/'.$product->id )}}" class="btn btn-primary btn-mini">Edit</a><a id="delCat" href="{{ url('/admin/delete-product/'.$product->id )}}" class="btn btn-danger btn-mini">Delete</a></td>
                 </tr>
+                <div id="myModal{{ $product->id }}" class="modal hide">
+              <div class="modal-header">
+                <button data-dismiss="modal" class="close" type="button">×</button>
+                <h3>{{ $product->product_name }} Full Details</h3>
+              </div>
+              <div class="modal-body">
+                <p>Product ID : {{ $product->id }}</p>
+                <p>Category ID : {{ $product->category_id }}</p>
+                <p>Category Name : {{ $product->category_name }} </p>
+                <p>Product Name : {{ $product->product_name }}</p>
+                <p>Product Code : {{ $product->product_code }}</p>
+                <p>Product Color : {{ $product->product_color }}</p>
+                <p>Product Price : {{ $product->price }}</p>
+                <p>Fabric :</p>
+                <p>Material:</p>
+                <p>Description : {{ $product->description }}</p>
+
+              </div>
+            </div>
+          </div>
                 @endforeach
                 </tbody>
             </table>
@@ -68,4 +88,7 @@
     </div>
   </div>
 </div>
+
+
+           
 @endsection
