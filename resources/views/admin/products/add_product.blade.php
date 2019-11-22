@@ -26,8 +26,8 @@
           <div class="widget-title"> <span class="icon"> <i class="icon-info-sign"></i> </span>
             <h5>Add Product</h5>
           </div>
-          <div class="widget-content nopadding">
-            <form class="form-horizontal" method="post" action="{{ url('/admin/add-product')}}" name="add_product" id="add_product" novalidate="novalidate">{{ csrf_field()}}
+          <div class="widget-content nopadding"> {{-- The enctype attribute specifies how the form-data should be encoded when submitting it to the server.The enctype attribute can be used only if method="post".No characters are encoded. This value is required when you are using forms that have a file upload control --}}
+            <form enctype="multipart/form-data" class="form-horizontal" method="post" action="{{ url('/admin/add-product')}}" name="add_product" id="add_product" novalidate="novalidate">{{ csrf_field()}}
               <div class="control-group">
                 <label class="control-label">Under Category</label>
                 <div class="controls">

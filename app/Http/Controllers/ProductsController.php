@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Input;
+use Image;
 use Auth;
 use Session;
 use App\Category;
@@ -29,7 +31,25 @@ class ProductsController extends Controller
                 $product->description = '';
             }
             $product->price = $data['price'];
-            $product->image = '';
+
+            // Upload Image
+            if($request->hasFile('image')){
+                $image_tmp = $request->file('image'); 
+                if($image_tmp->isValid()){   
+                    $extention = $image_tmp->getClientOriginalExtension(); //returns the original file extension
+                    $filename = rand(111,99999).'.'.$extention; //rand function generate random number min 111 and max 99999
+                    $large_image_path = 'images/backend_images/products/large/'.$filename;
+                    $medium_image_path = 'images/backend_images/products/medium/'.$filename;
+                    $small_image_path = 'images/backend_images/products/small/'.$filename;
+                    //Resize Image
+                    Image::make($image_tmp)->save($large_image_path);
+                    Image::make($image_tmp)->resize(600,600)->save($medium_image_path);
+                    Image::make($image_tmp)->resize(300,300)->save($small_image_path);
+                    //Store Image name in product table
+                    $product->image = $filename;
+                }
+            }
+            
             $product->save();
             return redirect()->back()->with('flash_message_success','Product has been added Successfully!');
 
