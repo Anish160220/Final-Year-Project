@@ -113,7 +113,38 @@ $(document).ready(function(){
 			}
 		});
 
-	// Add Category Validation
+	// Edit Product Validation
+	$("#edit_product").validate({
+		rules:{
+			category_id:{
+				required:true
+			},
+			product_name:{
+				required:true,
+			},
+			product_code:{
+				required:true,
+			},
+			product_color:{
+				required:true,
+			},
+			price:{
+				required:true,
+				number:true,
+			}
+		},
+		errorClass: "help-inline",
+		errorElement: "span",
+		highlight:function(element, errorClass, validClass) {
+			$(element).parents('.control-group').addClass('error');
+		},
+		unhighlight: function(element, errorClass, validClass) {
+			$(element).parents('.control-group').removeClass('error');
+			$(element).parents('.control-group').addClass('success');
+		}
+	});
+
+	// Edit Category Validation
     $("#edit_category").validate({
 		rules:{
 			category_name:{
