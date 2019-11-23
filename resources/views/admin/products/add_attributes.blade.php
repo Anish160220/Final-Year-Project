@@ -90,7 +90,7 @@
                   {{ $attribute->stock }}
                   </td>
                   <td class="center">
-                  <a rel="{{ $attribute->id }}" rel1="delete-product" <?php /*href="{{ url('/admin/delete-product/'.$product->id )}}" */?> href="javascript:" class="btn btn-danger btn-mini deleteRecord">Delete</a></td>
+                  <a rel="{{ $attribute->id }}" rel1="delete-attribute" <?php /*href="{{ url('/admin/delete-product/'.$product->id )}}" */?> href="javascript:" class="btn btn-danger btn-mini deleteRecord">Delete</a></td>
                 </tr>
                 @endforeach
                 </tbody>
