@@ -25,6 +25,9 @@ Auth::routes();
 
 Route::get('/home', 'HomeController@index')->name('home');
 
+//Listing/Category  PAge
+Route::get('/products/{url}','ProductsController@products');
+
 Route::group(['middleware' => ['auth']],function(){
     Route::get('/admin/dashboard','AdminController@dashboard');
     Route::get('/admin/settings','AdminController@settings');
