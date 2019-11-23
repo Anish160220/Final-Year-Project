@@ -234,8 +234,9 @@ $(document).ready(function(){
 	$(".deleteRecord").click(function(){
 			var  id = $(this).attr('rel');
 			var deleteFunction = $(this).attr('rel1');
+			
 			swal({
-				title : 'Are you sure?',
+				title : 'Are you sure??',
 				text : "You won't be able to reverse this!",
 				type : 'warning',
 				showCancelButton : true,
@@ -247,9 +248,10 @@ $(document).ready(function(){
 				cancelButtonClass : 'btn btn-danger',
 				buttonsStyling : false,
 				reverseButtons :true
-			}),
+			},
 			function(){
-				window.location.href="/admin/"+deleteFunction+"/"+id;
-			}
+				var b= window.location.href="/admin/"+deleteFunction+"/"+id;
+				
+			});
 	});
 });
