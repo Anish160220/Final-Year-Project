@@ -139,6 +139,11 @@ class ProductsController extends Controller
         return view('admin.products.view_products')->with(compact('products'));
     }
 
+    public function deleteProduct($id=null){
+        Product::where(['id'=>$id])->delete();
+        return redirect()->back()->with('flash_message_success','Product Deleted Successfully!');
+    }
+
     public function deleteProductImage($id=null){
         Product::where(['id'=>$id])->update(['image'=>'']);
         return redirect()->back()->with('flash_message_success','Product Image Deleted Successfully!');
