@@ -9,6 +9,7 @@ use Auth;
 use Session;
 use App\Category;
 use App\Product;
+use App\ProductsAttribute;
 class ProductsController extends Controller
 {
     public function addProduct(Request $request){
@@ -150,6 +151,24 @@ class ProductsController extends Controller
     }
 
     public function addAttributes(Request $request, $id=null){
-        return view('admin.products.add_attributes');
+        $productDetails = Product::where(['id'=>$id])->first();
+        if($request->isMethod('post')){
+            $data = $request->all();
+            //echo "<pre>"; print_r($data); die;
+            foreach($data['sku'] as $key => $val){
+                if(!empty($val)){
+                    $attribute = new ProductsAttribute;
+                    $attribute->product_id = $id;
+                    $attribute->sku = $val;
+                    $attribute->size = $data['size'][$key];
+                    $attribute->price = $data['price'][$key];
+                    $attribute->stock = $data['stock'][$key];
+                    $attribute->save();
+                    
+                }
+            }
+            return redirect()->back()->with('flash_message_success','Product Attribute Added Successfully!');
+        }
+        return view('admin.products.add_attributes')->with(compact('productDetails'));
     }
 }
