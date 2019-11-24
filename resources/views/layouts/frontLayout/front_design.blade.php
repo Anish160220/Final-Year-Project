@@ -1,3 +1,7 @@
+<?php
+use App\Http\Controllers\Controller;
+$mainCategories = Controller::mainCategories();
+?>
 <!DOCTYPE html>
 <html lang="en">
 <head>

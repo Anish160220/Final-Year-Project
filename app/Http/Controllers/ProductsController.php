@@ -187,7 +187,21 @@ class ProductsController extends Controller
 
         $categoryDetails = Category::where(['url'=> $url])->first();
 
-        $productsAll = Product::where(['category_id' => $categoryDetails->id])->get();
+        if($categoryDetails->parent_id == 0){
+                //If url is Main-Category
+                $subCategories = Category::where(['parent_id'=>$categoryDetails->id])->get();
+                foreach($subCategories as $subcat){
+                    $cat_ids[] = $subcat->id;
+                }
+                $productsAll = Product::whereIn('category_id',$cat_ids)->get();
+                // $productsAll = json_decode(json_encode($productsAll));
+                // echo "<pre>"; print_r($productsAll); die;
+        }else{
+            //If url is Sub-Category
+            $productsAll = Product::where(['category_id' => $categoryDetails->id])->get();
+        }
+
+        
         return view('/products.listing')->with(compact('categories','categoryDetails','productsAll'));
     }
 }
