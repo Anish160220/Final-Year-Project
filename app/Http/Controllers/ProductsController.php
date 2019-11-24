@@ -31,6 +31,12 @@ class ProductsController extends Controller
             }else{
                 $product->description = '';
             }
+
+            if(!empty($data['care'])){
+                $product->care = $data['care'];
+            }else{
+                $product->care = '';
+            }
             $product->price = $data['price'];
 
             // Upload Image
@@ -89,18 +95,24 @@ class ProductsController extends Controller
                     Image::make($image_tmp)->save($large_image_path);
                     Image::make($image_tmp)->resize(600,600)->save($medium_image_path);
                     Image::make($image_tmp)->resize(300,300)->save($small_image_path);
-                     } else{
-                         $filename = $data['current'];
+                     } 
+                    }else if(!empty($data['current_image'])){
+                        $filename = $data['current_image'];
+                    }
+                     else{
+                         $filename = '';
                      }
-            }
-
+            
             if(empty($data['description'])){
                 $data['description'] = '';
+            }
+            if(empty($data['care'])){
+                $data['care'] = '';
             }
 
            Product::where(['id'=>$id])->update(['category_id'=>$data['category_id'],
            'product_name'=>$data['product_name'],'product_code'=>$data['product_code'],
-           'product_color'=>$data['product_color'],'description'=>$data['description'],
+           'product_color'=>$data['product_color'],'description'=>$data['description'],'care'=>$data['care'],
            'price'=>$data['price'],'image'=>$filename]);
            return redirect()->back()->with('flash_message_success','Product Updated Successfully!');
         }
@@ -131,7 +143,7 @@ class ProductsController extends Controller
     }
 
     public function viewProducts(){
-        $products = Product::get();
+        $products = Product::orderby('id','DESC')->get();
         $products = json_decode(json_encode($products));
         foreach($products as $key => $val){
             $category_name = Category::where(['id'=>$val->category_id])->first();
@@ -182,6 +194,17 @@ class ProductsController extends Controller
             //echo "<pre>"; print_r($data); die;
             foreach($data['sku'] as $key => $val){
                 if(!empty($val)){
+                    //Prevent Duplicate SKU Check
+                    $attrCountSKU = ProductsAttribute::where('sku',$val)->count();
+                    if($attrCountSKU>0){
+                        return redirect()->back()->with('flash_message_error','SKU Already Exists! Please Add Another SKU.');
+                    }
+
+                    //Prevent Duplicate Size Check
+                    $attrCountSizes = ProductsAttribute::where(['product_id'=>$id,'size'=>$data['size'][$key]])->count();
+                    if($attrCountSizes>0){
+                        return redirect()->back()->with('flash_message_error','"'.$data['size'][$key].'" Size Already Exists! Please Add Another Size.');
+                    }
                     $attribute = new ProductsAttribute;
                     $attribute->product_id = $id;
                     $attribute->sku = $val;
