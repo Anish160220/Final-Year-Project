@@ -251,6 +251,17 @@ class ProductsController extends Controller
         return view('admin.products.add_attributes')->with(compact('productDetails'));
     }
 
+    public function editAttributes(Request $request,$id=null){
+        if($request->isMethod('post')){
+            $data = $request->all();
+            foreach($data['idAttr'] as $key => $attr){
+                ProductsAttribute::where(['id'=>$data['idAttr'][$key]])->update(['price'=>$data['price'][$key],'stock'=>$data['stock'][$key]]);
+            }
+            return redirect()->back()->with('flash_message_success','Product Attribute Updated Successfully!');
+    
+        }
+    }
+
     public function addImages(Request $request, $id=null){
         $productDetails = Product::with('attributes')->where(['id'=>$id])->first();
         //$productDetails = json_decode(json_encode($productDetails));
@@ -292,6 +303,7 @@ class ProductsController extends Controller
      
     }
 
+    //For admin
     public function products($url = null){
         //Show 404 page if category url doesnot exist
         $countCatogory = Category::where(['url'=>$url,'status'=>1])->count();
@@ -314,6 +326,8 @@ class ProductsController extends Controller
                 $productsAll = Product::whereIn('category_id',$cat_ids)->get();
                 // $productsAll = json_decode(json_encode($productsAll));
                 // echo "<pre>"; print_r($productsAll); die;
+
+
         }else{
             //If url is Sub-Category
             $productsAll = Product::where(['category_id' => $categoryDetails->id])->get();
@@ -323,6 +337,7 @@ class ProductsController extends Controller
         return view('/products.listing')->with(compact('categories','categoryDetails','productsAll'));
     }
 
+    //For users
     public function product($id = null){
         //Get PRoduct Details
        $productDetails = Product::with('attributes')->where('id',$id)->first();
@@ -333,7 +348,10 @@ class ProductsController extends Controller
         //get Product Alt Image
         $productAltImages = ProductsImage::where('product_id',$id)->get();
 
-       return view('products.detail')->with(compact('productDetails','categories','productAltImages'));
+        //To get the available Stock
+         $total_stock = ProductsAttribute::where('product_id',$id)->sum('stock'); 
+
+       return view('products.detail')->with(compact('productDetails','categories','productAltImages','total_stock'));
     }
 
     public function getProductPrice(Request $request){
@@ -342,5 +360,7 @@ class ProductsController extends Controller
         $proArr = explode("-",$data['idSize']);
         $proArr = ProductsAttribute::where(['product_id' => $proArr[0],'size' => $proArr[1]])->first();
         echo $proArr->price;
+        echo "#";
+        echo $proArr->stock;
     }
 }

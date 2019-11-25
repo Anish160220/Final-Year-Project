@@ -31,7 +31,7 @@ $(document).ready(function(){
 
 $(document).ready(function(){
 
-	//Change Price with Size
+	//Change Price  and Stock with Size
 	$("#selSize").change(function(){
 		var idSize =$(this).val();
 		if(idSize == ""){
@@ -42,7 +42,16 @@ $(document).ready(function(){
 			url:'/get-product-price',
 			data:{idSize:idSize},
 			success:function(resp){
-				$("#getPrice").html("NPR "+resp);
+				var arr = resp.split('#');
+				//alert(resp); return false;
+				$("#getPrice").html("NPR "+arr[0]);
+				if(arr[1]==0){
+					$("#cartButton").hide();
+					$("#Availability").text("Out Of Stock");
+				}else{
+					$("#cartButton").show();
+					$("#Availability").text("In Stock");
+				}
 			},error:function(){
 				alert("Error");
 			}
