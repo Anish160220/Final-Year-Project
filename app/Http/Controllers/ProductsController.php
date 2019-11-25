@@ -342,6 +342,17 @@ class ProductsController extends Controller
         //Get PRoduct Details
        $productDetails = Product::with('attributes')->where('id',$id)->first();
 
+       //
+       $relatedProducts = Product::where('id','!=',$id)->where(['category_id'=>$productDetails->category_id])->get();
+       //$relatedProducts = json_decode(json_encode($relatedProducts));
+
+    //    foreach($relatedProducts->chunk(3) as $chunk){
+    //        foreach($chunk as $item){
+    //            echo $item;echo "<br>";
+    //        }
+    //         echo "<br><br>";
+    //    }
+    //    echo "<pre>"; print_r($relatedProducts); die;
         //Get All Categories and Sub Categoris
         $categories = Category::with('categories')->where(['parent_id'=>0])->get();
 
@@ -351,7 +362,7 @@ class ProductsController extends Controller
         //To get the available Stock
          $total_stock = ProductsAttribute::where('product_id',$id)->sum('stock'); 
 
-       return view('products.detail')->with(compact('productDetails','categories','productAltImages','total_stock'));
+       return view('products.detail')->with(compact('productDetails','categories','productAltImages','total_stock','relatedProducts'));
     }
 
     public function getProductPrice(Request $request){
