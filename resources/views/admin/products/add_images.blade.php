@@ -4,7 +4,7 @@
 <div id="content">
   <div id="content-header">
     <div id="breadcrumb"> <a href="index.html" title="Go to Home" class="tip-bottom"><i class="icon-home"></i> Home</a> <a href="#">Products</a> <a href="#" class="current">Add Product Images</a> </div>
-    <h1>Products Images</h1>
+    <h1>Products Alternate Images</h1>
     @if(Session::has('flash_message_error'))  
         <div class="alert alert-danger alert-block">
 	<button type="button" class="close" data-dismiss="alert">×</button>	
@@ -68,19 +68,15 @@
                 </tr>
               </thead>
               <tbody>
-                  <!-- @foreach($productDetails['attributes'] as $attribute)
+                  @foreach($productsImages as $image)
                 <tr class="gradeX">
-                  <td>{{ $attribute->id }}</td>
-                  <td>{{ $attribute->sku }}</td>
-                  <td>{{ $attribute->size }}</td>
-                  <td>{{ $attribute->price }}</td>
-                  <td>
-                  {{ $attribute->stock }}
-                  </td>
+                  <td>{{ $image->id }}</td>
+                  <td>{{ $image->product_id }}</td>
+                  <td><img style="width:150px;" src="{{ asset('images/backend_images/products/small/'.$image->image) }}" ></td>
                   <td class="center">
-                  <a rel="{{ $attribute->id }}" rel1="delete-attribute" <?php /*href="{{ url('/admin/delete-product/'.$product->id )}}" */?> href="javascript:" class="btn btn-danger btn-mini deleteRecord">Delete</a></td>
+                  <a rel="{{$image->id}}" rel1="delete-alt-image" href="javascript:" class="btn btn-danger btn-mini deleteRecord" title="Delete Product Image">Delete</a></td>
                 </tr>
-                @endforeach -->
+                @endforeach
                 </tbody>
             </table>
           </div>

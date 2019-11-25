@@ -185,6 +185,36 @@ class ProductsController extends Controller
         return redirect()->back()->with('flash_message_success','Product Image Deleted Successfully!');
     }
 
+    public function deleteAltImage($id=null){
+        //Get Product Image Name
+        $productImage = ProductsImage::where(['id'=>$id])->first();
+        if(empty($productImage)){
+            echo "Error"; die;
+        }
+
+        //Get Product Image path
+        $large_image_path = 'images/backend_images/products/large/';
+        $medium_image_path = 'images/backend_images/products/medium/';
+        $small_image_path = 'images/backend_images/products/small/';
+
+        //Delete Large Image if not exists in folder
+        if(file_exists($large_image_path.$productImage->image));
+        unlink($large_image_path.$productImage->image);
+
+        //Delete Medium Image if not exists in folder
+        if(file_exists($medium_image_path.$productImage->image));
+        unlink($medium_image_path.$productImage->image);
+
+        //Delete small Image if not exists in folder
+        if(file_exists($small_image_path.$productImage->image));
+        unlink($small_image_path.$productImage->image);
+
+
+        //Delete Image From Products Table
+        ProductsImage::where(['id'=>$id])->delete();
+        return redirect()->back()->with('flash_message_success','Product Alternate Image Deleted Successfully!');
+    }
+
     public function addAttributes(Request $request, $id=null){
         $productDetails = Product::with('attributes')->where(['id'=>$id])->first();
         //$productDetails = json_decode(json_encode($productDetails));
@@ -251,7 +281,9 @@ class ProductsController extends Controller
             }
             return redirect('admin/add-images/'.$id)->with ('flash_message_success','Product Images Added Successfully');
             }
-        return view('admin.products.add_images')->with(compact('productDetails'));
+            $productsImages = ProductsImage::where(['product_id'=>$id])->get();
+       
+            return view('admin.products.add_images')->with(compact('productDetails','productsImages'));
     }
 
     public function deleteAttribute($id=null){
@@ -298,7 +330,10 @@ class ProductsController extends Controller
         //Get All Categories and Sub Categoris
         $categories = Category::with('categories')->where(['parent_id'=>0])->get();
 
-       return view('products.detail')->with(compact('productDetails','categories'));
+        //get Product Alt Image
+        $productAltImages = ProductsImage::where('product_id',$id)->get();
+
+       return view('products.detail')->with(compact('productDetails','categories','productAltImages'));
     }
 
     public function getProductPrice(Request $request){

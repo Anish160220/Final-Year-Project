@@ -30,6 +30,8 @@ $(document).ready(function(){
 });
 
 $(document).ready(function(){
+
+	//Change Price with Size
 	$("#selSize").change(function(){
 		var idSize =$(this).val();
 		if(idSize == ""){
@@ -45,5 +47,11 @@ $(document).ready(function(){
 				alert("Error");
 			}
 		});
+	});
+
+	//Replace main image with Alternate Image
+	$(".changeImage").click(function(){
+		var image = $(this).attr('src');
+		$(".mainImage").attr("src",image);
 	});
 });
