@@ -57,6 +57,15 @@ class ProductsController extends Controller
                     $product->image = $filename;
                 }
             }
+
+            if(empty($data['status'])){
+                $status = 0;
+            }else{
+                $status = 1;
+            }
+
+            $product->status = $status;
+
             
             $product->save();
             return redirect('/admin/view-products')->with('flash_message_success','Product has been added Successfully!');
@@ -110,11 +119,16 @@ class ProductsController extends Controller
             if(empty($data['care'])){
                 $data['care'] = '';
             }
+               if(empty($data['status'])){
+                $status = 0;
+            }else{
+                $status = 1;
+            }
 
            Product::where(['id'=>$id])->update(['category_id'=>$data['category_id'],
            'product_name'=>$data['product_name'],'product_code'=>$data['product_code'],
            'product_color'=>$data['product_color'],'description'=>$data['description'],'care'=>$data['care'],
-           'price'=>$data['price'],'image'=>$filename]);
+           'price'=>$data['price'],'image'=>$filename,'status'=>$status]);
            return redirect()->back()->with('flash_message_success','Product Updated Successfully!');
         }
         //Get PRoducts Detail
@@ -323,14 +337,14 @@ class ProductsController extends Controller
                 foreach($subCategories as $subcat){
                     $cat_ids[] = $subcat->id;
                 }
-                $productsAll = Product::whereIn('category_id',$cat_ids)->get();
+                $productsAll = Product::whereIn('category_id',$cat_ids)->where('status',1)->get();
                 // $productsAll = json_decode(json_encode($productsAll));
                 // echo "<pre>"; print_r($productsAll); die;
 
 
         }else{
             //If url is Sub-Category
-            $productsAll = Product::where(['category_id' => $categoryDetails->id])->get();
+            $productsAll = Product::where(['category_id' => $categoryDetails->id])->where('status',1)->get();
         }
 
         
@@ -339,6 +353,13 @@ class ProductsController extends Controller
 
     //For users
     public function product($id = null){
+        //Show 404 page if product is disable
+        $productsCount = Product::where(['id'=>$id,'status'=>1])->count();
+        if($productsCount==0){
+            // abort(404);
+            return view('404');
+        }
+
         //Get PRoduct Details
        $productDetails = Product::with('attributes')->where('id',$id)->first();
 
