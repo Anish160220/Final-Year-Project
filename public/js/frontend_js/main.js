@@ -45,6 +45,7 @@ $(document).ready(function(){
 				var arr = resp.split('#');
 				//alert(resp); return false;
 				$("#getPrice").html("NPR "+arr[0]);
+				$("#price").val(arr[0]);
 				if(arr[1]==0){
 					$("#cartButton").hide();
 					$("#Availability").text("Out Of Stock");

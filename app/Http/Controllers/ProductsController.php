@@ -11,6 +11,7 @@ use App\Category;
 use App\Product;
 use App\ProductsAttribute;
 use App\ProductsImage;
+use DB;
 class ProductsController extends Controller
 {
     public function addProduct(Request $request){
@@ -395,4 +396,21 @@ class ProductsController extends Controller
         echo "#";
         echo $proArr->stock;
     }
+
+    public function addtocart(Request $request){
+        $data =$request->all();
+
+        if(empty($data['user_email'])){
+            $data['user_email']='';
+        }
+        if(empty($data['session_id'])){
+            $data['session_id']='';
+        }
+        $sizeArr = explode("-",$data['size']);
+
+        //echo "<pre>";print_r($data);die;
+        DB::table('cart')->insert(['product_id'=>$data['product_id'],'product_name'=>$data['product_name'],'product_code'=>$data['product_code'],'product_color'=>$data['product_color'],'price'=>$data['price'],'size'=>$sizeArr[1],'quantity'=>$data['quantity'],'user_email'=>$data['user_email'],'session_id'=>$data['session_id']]);
+        die;
+    }
+
 }
