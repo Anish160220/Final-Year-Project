@@ -10,6 +10,7 @@ use Session;
 use App\Category;
 use App\Product;
 use App\ProductsAttribute;
+use App\ProductsImage;
 class ProductsController extends Controller
 {
     public function addProduct(Request $request){
@@ -218,6 +219,39 @@ class ProductsController extends Controller
             return redirect()->back()->with('flash_message_success','Product Attribute Added Successfully!');
         }
         return view('admin.products.add_attributes')->with(compact('productDetails'));
+    }
+
+    public function addImages(Request $request, $id=null){
+        $productDetails = Product::with('attributes')->where(['id'=>$id])->first();
+        //$productDetails = json_decode(json_encode($productDetails));
+         //echo "<pre>"; print_r($productDetails); die;
+        
+        if($request->isMethod('post')){
+            $data =  $request->all();
+            
+            if($request->hasFile('image')){
+                $files = $request->file('image'); 
+                foreach($files as $file){
+                    //Upload Images After Re-size
+                    $image = new ProductsImage;
+                    $extention = $file->getClientOriginalExtension(); 
+                    $filename = rand(111,99999).'.'.$extention;
+                    $large_image_path = 'images/backend_images/products/large/'.$filename;
+                    $medium_image_path = 'images/backend_images/products/medium/'.$filename;
+                    $small_image_path = 'images/backend_images/products/small/'.$filename;
+                    //Resize Image
+                    Image::make($file)->save($large_image_path);
+                    Image::make($file)->resize(600,600)->save($medium_image_path);
+                    Image::make($file)->resize(300,300)->save($small_image_path);
+                    $image->image = $filename;
+                    $image->product_id = $data['product_id'];
+                    $image->save();
+                }
+               
+            }
+            return redirect('admin/add-images/'.$id)->with ('flash_message_success','Product Images Added Successfully');
+            }
+        return view('admin.products.add_images')->with(compact('productDetails'));
     }
 
     public function deleteAttribute($id=null){
