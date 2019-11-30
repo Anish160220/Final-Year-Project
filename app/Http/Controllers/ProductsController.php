@@ -8,6 +8,7 @@ use Image;
 use Auth;
 use Session;
 use App\Category;
+use App\Coupon;
 use App\Product;
 use App\ProductsAttribute;
 use App\ProductsImage;
@@ -458,5 +459,19 @@ class ProductsController extends Controller
       
         }
        
+    }
+
+    public function applyCoupon(Request $request){
+        $data = $request->all();
+        // echo "<pre>";print_r($data);die;
+        $couponCount = Coupon::where('coupon_code',$data['coupon_code'])->count();
+        if($couponCount==0){
+            return redirect()->back()->with('flash_message_error','Coupon is not valid');
+        }
+        else{
+            //with perform ither checks like Active and Expiry date
+            echo "Success";
+            die;
+        }
     }
 }
