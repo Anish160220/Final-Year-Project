@@ -3,7 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use app\Coupon;
+use App\Coupon;
 
 class CouponsController extends Controller
 {
@@ -16,11 +16,26 @@ class CouponsController extends Controller
             $coupon->amount = $data['amount'];
             $coupon->amount_type = $data['amount_type'];
             $coupon->expiry_date = $data['expiry_date'];
-            $coupon->status = $data['status'];
+            if(empty($data['status'])){
+                $status = 0;
+            }else{
+                $status = 1;
+            }
+            $coupon->status = $status;
             $coupon->save();
 
-            
+            return redirect()->action('CouponsController@viewCoupons')->with('flash_message_success','Coupon Added Successfully!');
         }
         return view('admin.coupons.add_coupon');
+    }
+
+    public function viewCoupons(){
+        $coupons = Coupon::get();
+        // $coupons = json_decode(json_encode($coupons));
+        // foreach($coupons as $key => $val){
+        //     $category_name = Category::where(['id'=>$val->category_id])->first();
+        //     $coupons[$key]->category_name = $category_name->name;
+        // }
+        return view('admin.coupons.view_coupons')->with(compact('coupons'));
     }
 }
