@@ -45,6 +45,8 @@ $mainCategories = Controller::mainCategories();
     <script src="{{ asset('js/frontend_js/jquery.prettyPhoto.js') }}"></script>
     <script src="{{ asset('js/frontend_js/easyzoom.js') }}"></script>
     <script src="{{ asset('js/frontend_js/main.js') }}"></script>
+    <script src="{{ asset('js/frontend_js/jquery.validate.js') }}"></script>     
+
     <script src="https://kit.fontawesome.com/yourcode.js"></script>
 </body>
 </html>
