@@ -84,5 +84,9 @@ Route::group(['middleware' => ['auth']],function(){
 
     //Admin Banners Route
     Route::match(['get','post'],'/admin/add-banner','BannersController@addBanner');
+    Route::match(['get','post'],'/admin/edit-banner/{id}','BannersController@editBanner');
+    Route::get('/admin/view-banners','BannersController@viewBanners');
+    Route::get('/admin/delete-banner/{id}','BannersController@deleteBanner');
+    Route::get('/admin/delete-banner-image/{id}','BannersController@deleteBannerImage');
 });
 
