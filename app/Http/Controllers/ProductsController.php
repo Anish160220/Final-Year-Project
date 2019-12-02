@@ -517,4 +517,8 @@ class ProductsController extends Controller
             return redirect()->back()->with('flash_message_success','Coupon Code Successfully applied. Discount Granted');
         }
     }
+
+    public function checkout(){
+        return view('products.checkout');
+    }
 }
