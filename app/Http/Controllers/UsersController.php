@@ -51,11 +51,54 @@ class UsersController extends Controller
        
     }
 
-    public function account(){
+    public function account(Request $request){
         $user_id = Auth::user()->id;
         $userDetails = User::find($user_id);
         $countries = Country::get();
        //echo "<pre>"; print_r($userDetails);die;
+       if($request->isMethod('post')){
+           $data=$request->all();
+
+           if(empty($data['name'])){
+            return redirect()->back()->with('flash_message_error','Please enter your name');
+           }
+
+           if(empty($data['address'])){
+            $data['address']='';
+           }
+
+           if(empty($data['city'])){
+            $data['city']='';
+           }
+
+           if(empty($data['state'])){
+            $data['state']='';
+           }
+
+           if(empty($data['country'])){
+            $data['country']='';
+           }
+
+           if(empty($data['pincode'])){
+            $data['pincode']='';
+           }
+
+           if(empty($data['mobile'])){
+            $data['mobile']='';
+           }
+           //echo "<pre>"; print_r($data);die;
+           $user = User::find($user_id);
+           $user->name = $data['name'];
+           $user->address = $data['address'];
+           $user->city = $data['city'];
+           $user->state = $data['state'];
+           $user->country = $data['country'];
+           $user->pincode = $data['pincode'];
+           $user->mobile = $data['mobile'];
+           $user->save();
+
+           return redirect()->back()->with('flash_message_success','Your Account Detail Updated Successfully!');
+       }
         return view('users.account')->with(compact('countries','userDetails'));
     }
 

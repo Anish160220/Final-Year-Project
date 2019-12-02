@@ -133,6 +133,25 @@ $().ready(function(){
 		}
 	});
 
+	//Validate Account Form on keyup and submit
+	$("#accountForm").validate({
+		rules:{
+			name:{
+				required:true,
+				minlength:2,
+				accept:"[a-zA-Z]+"
+			},
+		},
+		messages:{
+			name: {
+				required: "Please Enter your name",
+				minlength: "Your name must be atleast 2 character.",
+				accept: "Your name must contain letters only"
+
+		},
+		}
+	});
+
 	//Validate REgister Form on keyup and submit
 	$("#loginForm").validate({
 		rules:{
