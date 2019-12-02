@@ -12,6 +12,19 @@ class UsersController extends Controller
         return view('users.login_register');
     }
 
+    public function login(Request $request){
+        if($request->isMethod('post')){
+            $data= $request->all();
+            //echo "<pre>"; print_r($data); die;
+            if(Auth::attempt(['email'=>$data['email'],'password'=>$data['password']])){
+                return redirect('/cart')->with('flash_message_success','Logged In Successfully');
+            }else{
+                return redirect()->back()->with('flash_message_error','Invalid Username Or Password');
+            }
+
+        }
+    }
+
     public function register(Request $request){
         if($request->isMethod('post')){
             $data=$request->all();
@@ -27,7 +40,7 @@ class UsersController extends Controller
                 $user->password = bcrypt($data['password']);
                 $user->save();
                 if(Auth::attempt(['email'=>$data['email'],'password'=>$data['password']])){
-                    return redirect('/cart');
+                    return redirect('/cart')->with('flash_message_success','Registered Successfully');
                 }
             }
         }

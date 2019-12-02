@@ -56,6 +56,9 @@ Route::get('/login-register','UsersController@userLoginRegister');
 //USer Register Form submit
 Route::post('/user-register','UsersController@register');
 
+//USer Login Form Submit
+Route::post('/user-login','UsersController@login');
+
 //USers Logout
 Route::get('/user-logout','UsersController@logout');
 

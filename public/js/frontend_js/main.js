@@ -133,6 +133,29 @@ $().ready(function(){
 		}
 	});
 
+	//Validate REgister Form on keyup and submit
+	$("#loginForm").validate({
+		rules:{
+			password:{
+				required:true
+
+			},
+			email:{
+				required:true,
+				email:true	
+			}
+		},
+		messages:{
+			password:{
+				required: "Please provide your password"
+			},
+			email: {
+				required: "Please enter your email",
+				email: "Please enter valid Email."
+			}
+		}
+	});
+
 	//PAssword Strenght
 	$('#myPassword').passtrength({
 		minChars: 4,
