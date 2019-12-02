@@ -67,6 +67,8 @@ Route::group(['middleware' => ['frontlogin']],function(){
     Route::match(['get','post'],'/account','UsersController@account');
     //Check User Current Password
     Route::post('/check-user-pwd','UsersController@chkUserPassword');
+    //Update user password
+    Route::post('/update-user-pwd','UsersController@updatePassword');
 });
 
 //Check if user already exist
