@@ -50,8 +50,14 @@ Route::get('/cart/update-quantity/{id}/{quantity}','ProductsController@updateCar
 //Apply Coupon
 Route::post('/cart/apply-coupon','ProductsController@applyCoupon');
 
-//USer Login Register
-Route::match(['get','post'],'/login-register','UsersController@register');
+//USer Login Register Page
+Route::get('/login-register','UsersController@userLoginRegister');
+
+//USer Register Form submit
+Route::post('/user-register','UsersController@register');
+
+//USers Logout
+Route::get('/user-logout','UsersController@logout');
 
 //Check if user already exist
 Route::match(['get','post'],'/check-email','UsersController@checkEmail');
