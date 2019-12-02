@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\User;
 use Auth;
 use Session;
+use App\Country;
 
 class UsersController extends Controller
 {
@@ -51,7 +52,11 @@ class UsersController extends Controller
     }
 
     public function account(){
-        return view('users.account');
+        $user_id = Auth::user()->id;
+        $userDetails = User::find($user_id);
+        $countries = Country::get();
+       //echo "<pre>"; print_r($userDetails);die;
+        return view('users.account')->with(compact('countries','userDetails'));
     }
 
     public function logout(){
