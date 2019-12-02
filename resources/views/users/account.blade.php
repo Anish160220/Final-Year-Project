@@ -32,7 +32,7 @@
 							</select>
 							<input value="{{$userDetails->pincode}}" style="margin-top:15px;"id="pincode" name="pincode" type="text" placeholder="Pincode"/>
 							<input value="{{$userDetails->mobile}}" id="mobile" name="mobile" type="text" placeholder="Mobile"/>
-							<button type="submit" class="btn btn-default">Signup</button>
+							<button type="submit" class="btn btn-default">Update</button>
 						</form>
 					</div>
 				</div>
@@ -42,6 +42,13 @@
 				<div class="col-sm-4">
 					<div class="signup-form">
 						<h2>Update Password</h2>
+						<form id="passwordForm" name="passwordForm" action="{{ url('/update-user-pwd') }}" method="post">{{ csrf_field() }}
+							<input type="password" name="current_pwd" id="current_pwd" placeholder="Current Password">
+							<span id="chkPwd"></span>
+							<input type="password" name="new_pwd" id="new_pwd" placeholder="New Password">
+							<input type="password" name="confirm_pwd" id="confirm_pwd" placeholder="Confirm Password">
+							<button type="submit" class="btn btn-default">Update</button>
+						</form>
 					</div>
 				</div>
 			</div>
