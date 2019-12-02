@@ -65,7 +65,7 @@
 								@if(empty(Auth::check()))
 								<li><a href="{{url('/login-register')}}"><i class="fa fa-lock"></i> Login</a></li>
 							@else
-							<li><a href="#"><i class="fa fa-user"></i> Account</a></li>
+							<li><a href="{{url('/account')}}"><i class="fa fa-user"></i> Account</a></li>
 							<li><a href="{{url('/user-logout')}}"><i class="fa fa-sign-out"></i> LogOut</a></li>
 							@endif
 							</ul>
