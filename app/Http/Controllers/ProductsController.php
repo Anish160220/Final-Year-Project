@@ -8,6 +8,8 @@ use Image;
 use Auth;
 use Session;
 use App\Category;
+use App\User;
+use App\Country;
 use App\Coupon;
 use App\Product;
 use App\ProductsAttribute;
@@ -519,6 +521,9 @@ class ProductsController extends Controller
     }
 
     public function checkout(){
-        return view('products.checkout');
+        $user_id = Auth::user()->id;
+        $userDetails = User::find($user_id);
+        $countries = Country::get();
+        return view('products.checkout')->with(compact('userDetails','countries'));
     }
 }
