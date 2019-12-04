@@ -3,8 +3,21 @@
 
 <section id="form" style="margin-top:10px;"><!--form-->
 		<div class="container">
-        <form action="#">
+        <form action="{{ url('/checkout') }}" method="post"> {{ csrf_field() }}
 			<div class="row">
+            @if(Session::has('flash_message_error'))  
+        <div class="alert alert-danger alert-block">
+	<button type="button" class="close" data-dismiss="alert">×</button>	
+        <strong>{!! session('flash_message_error') !!}</strong>
+</div>   
+        @endif   
+
+        @if(Session::has('flash_message_success'))  
+        <div class="alert alert-success alert-block">
+	<button type="button" class="close" data-dismiss="alert">×</button>	
+        <strong>{!! session('flash_message_success') !!}</strong>
+</div>   
+        @endif  
 				<div class="col-sm-4 col-sm-offset-1">
 					<div class="login-form"><!--login form-->
                         <h2>Bill To</h2>
@@ -47,29 +60,29 @@
 					<div class="signup-form"><!--sign up form-->
                         <h2>Ship To</h2>
                         <div class="form-group">
-                        <input  name="shipping_name" id="shipping_name" type="text" placeholder="Shipping Name" class="form-control"/>
+                        <input value="{{$shippingDetails->mobile}}"  name="shipping_name" id="shipping_name" type="text" placeholder="Shipping Name" class="form-control"/>
                         </div>
                         <div class="form-group">
-                            <input type="text" name="shipping_address" id="shipping_address" placeholder="Shipping Address" class="form-control"/>
+                            <input value="{{$shippingDetails->address}}"  type="text" name="shipping_address" id="shipping_address" placeholder="Shipping Address" class="form-control"/>
                             </div>
                         <div class="form-group">
-                            <input type="text" name="shipping_city" id="shipping_city"  placeholder="Shipping City" class="form-control"/>
+                            <input value="{{$shippingDetails->city}}"  type="text" name="shipping_city" id="shipping_city"  placeholder="Shipping City" class="form-control"/>
                             </div>
                         <div class="form-group">
-                            <input type="text" name="shipping_state" id="shipping_state" placeholder="Shipping State" class="form-control"/>
+                            <input value="{{$shippingDetails->state}}"  type="text" name="shipping_state" id="shipping_state" placeholder="Shipping State" class="form-control"/>
                             </div>
                         <div class="form-group">
-                        <select value="{{$userDetails->country}}" id="shipping_country" name="shipping_country" class="form-control">
+                        <select value="{{$shippingDetails->country}}" id="shipping_country" name="shipping_country" class="form-control">
 								<option value = "">Select Country </option>
 								@foreach($countries as $country)
-										<option value = "{{$country->country_name}}">{{$country->country_name}}</option>
+										<option value = "{{$country->country_name}}" @if($country->country_name == $shippingDetails->country) selected @endif>{{$country->country_name}}</option>
 								@endforeach
 							</select>  </div>
                         <div class="form-group">
-                            <input type="text" name="shipping_pincode" id="shipping_pincode" placeholder="Shipping Pincode" class="form-control"/>
+                            <input value="{{$shippingDetails->pincode}}"  type="text" name="shipping_pincode" id="shipping_pincode" placeholder="Shipping Pincode" class="form-control"/>
                             </div>
                         <div class="form-group">
-                            <input type="text" name="shipping_mobile" id="shipping_mobile" placeholder="Shipping Mobile" class="form-control"/>
+                            <input value="{{$shippingDetails->mobile}}"  type="text" name="shipping_mobile" id="shipping_mobile" placeholder="Shipping Mobile" class="form-control"/>
                             </div>
                         <div class="form-group">
                             <button type="submit" class="btn btn-success">CheckOut</button>	
