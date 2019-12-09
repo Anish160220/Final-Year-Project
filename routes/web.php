@@ -71,6 +71,8 @@ Route::group(['middleware' => ['frontlogin']],function(){
     Route::post('/update-user-pwd','UsersController@updatePassword');
     //Check Out Page
     Route::match(['get','post'],'/checkout','ProductsController@checkout');
+    //Order Review PAge
+    Route::match(['get','post'],'/order-review','ProductsController@orderReview');
 });
 
 //Check if user already exist
