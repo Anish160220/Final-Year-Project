@@ -409,8 +409,10 @@ class ProductsController extends Controller
             Session::forget('CouponCode');
         $data =$request->all();
 
-        if(empty($data['user_email'])){
+        if(empty(Auth::user()->email)){
             $data['user_email']='';
+        }else{
+            $data['user_email']=Auth::user()->email;
         }
 
         $session_id = Session::get('session_id');
@@ -660,6 +662,14 @@ class ProductsController extends Controller
                     $cartPro->product_qty = $pro->quantity;
                     $cartPro->save();
                 }
+                Session::put('order_id',$order_id);
+                Session::put('grand_total',$data['grand_total']);
+                //Redirect to thanks page
+                return  redirect('/thanks');
             }
+    }
+
+    public function thanks(Request $request){
+        return view('products.thanks');
     }
 }
