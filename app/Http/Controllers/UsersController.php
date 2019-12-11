@@ -138,6 +138,7 @@ class UsersController extends Controller
     public function logout(){
         Auth::logout();
          Session::forget('frontSession'); //Auth has done this work
+         Session::forget('session_id');
         return redirect('/')->with('flash_message_success','Successfully LogOut!');
     }
     public function checkEmail(Request $request){

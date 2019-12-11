@@ -112,26 +112,30 @@
 								<p class="cart_total_price">NPR : {{ $cart->price * $cart->quantity }}</p>
 							</td>
 						</tr>
-
+					<?php $total_amount = $total_amount + ( $cart->price * $cart->quantity); ?>
 					@endforeach
 							<td colspan="4">&nbsp;</td>
 							<td colspan="2">
 								<table class="table table-condensed total-result">
 									<tr>
 										<td>Cart Sub Total</td>
-										<td>$59</td>
-									</tr>
-									<tr>
-										<td>Exo Tax</td>
-										<td>$2</td>
+										<td>NPR {{$total_amount}}</td>
 									</tr>
 									<tr class="shipping-cost">
-										<td>Shipping Cost</td>
-										<td>Free</td>										
+										<td>Shipping Cost (+)</td>
+										<td>NPR 0</td>										
+									</tr>
+									<tr class="shipping-cost">
+										<td>Discount Amount (-)</td>
+										<td>@if(!empty(Session::get('CouponAmount')))
+										NPR {{ Session::get('CouponAmount')}}
+										@else NPR 0
+										@endif
+										</td>										
 									</tr>
 									<tr>
-										<td>Total</td>
-										<td><span>$61</span></td>
+										<td>Grand Total</td>
+										<td><span>NPR {{$grand_total = $total_amount - Session::get('CouponAmount') }}</span></td>
 									</tr>
 								</table>
 							</td>
@@ -139,17 +143,23 @@
 					</tbody>
 				</table>
 			</div>
+			<form name="paymentForm" id="paymentForm" action="{{ url('/place-order') }}" method="post"> {{ csrf_field() }}
 			<div class="payment-options">
+			<input type="hidden" name="grand_total" value="{{ $grand_total }}">
 					<span>
-						<label><input type="checkbox"> Direct Bank Transfer</label>
+						<label><strong>Select Payment Method</strong></label>
 					</span>
 					<span>
-						<label><input type="checkbox"> Check Payment</label>
+						<label><input type="radio" name="payment_method" id="COD" value="COD"> <strong>COD</strong></label>
 					</span>
 					<span>
-						<label><input type="checkbox"> Paypal</label>
+						<label><input type="radio" name="payment_method" id="Paypal" value="Paypal"> <strong>Paypal</strong></label>
+					</span>
+					<span style="float:right;"> 
+					<button type="submit" class="btn btn-success" onclick="return selectPAymentMethod();">Place Order</button>	
 					</span>
 				</div>
 		</div>
+		</form>
 	</section> <!--/#cart_items-->
     @endsection
