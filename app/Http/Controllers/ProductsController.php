@@ -664,15 +664,24 @@ class ProductsController extends Controller
                 }
                 Session::put('order_id',$order_id);
                 Session::put('grand_total',$data['grand_total']);
-                //Redirect to thanks page
-                return  redirect('/thanks');
+                if($data['payment_method']=="COD"){
+ //COD -Redirect to thanks page
+ return  redirect('/thanks');
+                }else{
+ //PayPal -Redirect to thanks page
+ return  redirect('/paypal');
+                }
             }
     }
 
     public function thanks(Request $request){
         $user_email = Auth::user()->email;
         DB::table('cart')->where('user_email',$user_email)->delete();
-        return view('products.thanks');
+        return view('orders.thanks');
+    }
+
+    public function paypal(Request $request){
+        return view('orders.paypal');
     }
 
     public function userOrders(){
