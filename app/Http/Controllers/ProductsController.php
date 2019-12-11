@@ -644,6 +644,22 @@ class ProductsController extends Controller
                 $order->payment_method = $data['payment_method'];
                 $order->grand_total = $data['grand_total'];
                 $order->save();
+
+                $order_id = DB::getPdo()->lastInsertId();
+                $cartProducts = DB::table('cart')->where(['user_email'=>$user_email])->get();
+                foreach($cartProducts as $pro){
+                    $cartPro = new OrdersProduct;
+                    $cartPro->order_id = $order_id;
+                    $cartPro->user_id = $user_id;
+                    $cartPro->product_id = $pro->product_id;
+                    $cartPro->product_code = $pro->product_code;
+                    $cartPro->product_name = $pro->product_name;
+                    $cartPro->product_color = $pro->product_color;
+                    $cartPro->product_Size = $pro->size;
+                    $cartPro->product_price = $pro->price;
+                    $cartPro->product_qty = $pro->quantity;
+                    $cartPro->save();
+                }
             }
     }
 }
