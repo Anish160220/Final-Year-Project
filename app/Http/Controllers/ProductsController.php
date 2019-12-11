@@ -678,6 +678,13 @@ class ProductsController extends Controller
     public function userOrders(){
         $user_id = Auth::user()->id;
         $orders = Order::with('orders')->where('user_id',$user_id)->orderBy('id','DESC')->get();
-        return view('products.user_orders')->with(compact('orders'));
+        return view('orders.user_orders')->with(compact('orders'));
+    }
+
+    public function userOrderDetails($order_id){
+        $user_id = Auth::user()->id;
+        $orderDetails = Order::with('orders')->where('id',$order_id)->first(); 
+        $orderDetails = json_decode(json_encode($orderDetails));
+        return view('orders.user_order_details')->with(compact('orderDetails'));
     }
 }

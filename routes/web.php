@@ -79,6 +79,8 @@ Route::group(['middleware' => ['frontlogin']],function(){
     Route::get('/thanks','ProductsController@thanks');
     //USers Order Page
     Route::get('/orders','ProductsController@userOrders');
+    //USers Ordered Product Page
+    Route::get('/orders/{id}','ProductsController@userOrderDetails');
 });
 
 //Check if user already exist
