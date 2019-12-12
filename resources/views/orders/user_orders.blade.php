@@ -34,7 +34,7 @@
 				@endforeach</td>
                 <td>{{$order->payment_method}}</td>
                 <td>{{$order->grand_total}}</td>
-                <td>{{$order->created_on}}</td>
+                <td>{{$order->created_at}}</td>
             </tr>  
 			@endforeach     
         </tbody>

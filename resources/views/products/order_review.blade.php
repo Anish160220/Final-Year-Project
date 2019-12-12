@@ -20,16 +20,16 @@
                           {{$userDetails->address}}
                             </div>
                         <div class="form-group">
-                            $userDetails->city}}
+                            {{$userDetails->city}}
                             </div>
                         <div class="form-group">
-                            $userDetails->state}}
+                            {{$userDetails->state}}
                             </div>
                         <div class="form-group">
                         
 							{{$userDetails->country}} </div>
                         <div class="form-group">
-                           $userDetails->pincode}}  </div>
+                           {{$userDetails->pincode}}  </div>
                         <div class="form-group">
                             {{$userDetails->mobile}} </div>
                             

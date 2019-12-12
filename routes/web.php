@@ -126,5 +126,9 @@ Route::group(['middleware' => ['auth']],function(){
     Route::get('/admin/view-banners','BannersController@viewBanners');
     Route::get('/admin/delete-banner/{id}','BannersController@deleteBanner');
     Route::get('/admin/delete-banner-image/{id}','BannersController@deleteBannerImage');
+
+    //Admin Orders Route
+    Route::get('/admin/view-orders','ProductsController@viewOrders');
+    Route::get('/admin/view-order/{id}','ProductsController@viewOrderDetails');
 });
 
