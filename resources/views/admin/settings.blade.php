@@ -28,8 +28,14 @@
               <h5>Update PAssword</h5>
             </div>
             <div class="widget-content nopadding">
-              <form class="form-horizontal" method="post" action="{{ url('/admin/update-pwd')}}" name="password_validate" id="password_validate" novalidate="novalidate">
-              <div class="control-group"> {{ csrf_field() }} {{--  Cross-site request forgeries are a type of malicious exploit whereby unauthorized commands are performed on behalf of an authenticated user. --}}
+              <form class="form-horizontal" method="post" action="{{ url('/admin/update-pwd')}}" name="password_validate" id="password_validate" novalidate="novalidate">  {{ csrf_field() }} {{--  Cross-site request forgeries are a type of malicious exploit whereby unauthorized commands are performed on behalf of an authenticated user. --}}
+              <div class="control-group">
+                  <label class="control-label">USername</label>
+                  <div class="controls">
+                    <input type="text" value="{{ $adminDetails->username}}" readonly="" />
+                  </div>
+                </div>  
+              <div class="control-group">
                   <label class="control-label">Current Password</label>
                   <div class="controls">
                     <input type="password" name="current_pwd" id="current_pwd" />

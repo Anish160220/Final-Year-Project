@@ -712,4 +712,13 @@ class ProductsController extends Controller
         // echo "<pre>";print_r($userDetails);die;
         return view('admin.orders.order_details')->with(compact('orderDetails','userDetails'));
     }
+
+    public function updateOrderStatus(Request $request){
+        if($request->isMethod('post')){
+            $data = $request->all();
+            //echo "<pre>"; print_r($data); die;
+            Order::where('id',$data['order_id'])->update(['order_status'=>$data['order_status']]);
+            return redirect()->back()->with('flash_message_success','Order status has been updated Successfuly!');
+        }
+    }
 }

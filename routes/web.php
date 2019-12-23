@@ -88,7 +88,7 @@ Route::group(['middleware' => ['frontlogin']],function(){
 //Check if user already exist
 Route::match(['get','post'],'/check-email','UsersController@checkEmail');
 
-Route::group(['middleware' => ['auth']],function(){
+Route::group(['middleware' => ['adminlogin']],function(){
     Route::get('/admin/dashboard','AdminController@dashboard');
     Route::get('/admin/settings','AdminController@settings');
     Route::get('/admin/check-pwd','AdminController@chkPassword');
@@ -129,6 +129,9 @@ Route::group(['middleware' => ['auth']],function(){
 
     //Admin Orders Route
     Route::get('/admin/view-orders','ProductsController@viewOrders');
+    //Admin Orders DetailRoute
     Route::get('/admin/view-order/{id}','ProductsController@viewOrderDetails');
+    //Update Order Status
+    Route::post('/admin/update-order-status','ProductsController@updateOrderStatus');
 });
 
